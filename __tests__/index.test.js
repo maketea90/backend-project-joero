@@ -103,8 +103,18 @@ describe("PATCH - /api/articles/:article_id", () => {
             expect(body.msg).toBe('bad request')
         })
     })
+    test("status: 400 incorrect request", () => {
+        return request(app)
+        .patch('/api/articles/3')
+        .send({inc_votes: 'word',
+    extra_property: 'unnecessary'})
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('bad request')
+        })
+    })
 })
-describe.only("GET - /api/users", () => {
+describe("GET - /api/users", () => {
     test("status: 200 responds with an array of user objects", () => {
         return request(app)
         .get('/api/users')
@@ -126,3 +136,4 @@ describe.only("GET - /api/users", () => {
         })
     })
 })
+//describe("")
