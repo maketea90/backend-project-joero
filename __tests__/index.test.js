@@ -26,7 +26,7 @@ describe('GET - /api/topics', () => {
     })
     test("status: 404 path not found", () => {
         return request(app)
-        .get('/api/invalid_path')
+        .get('/not_a_path')
         .expect(404)
         .then(({body}) => {
             expect(body.msg).toBe('path not found')
@@ -50,12 +50,12 @@ describe("GET /api/articles/:article_id", () => {
               })
         })
     })
-    test("status: 404 resource doesn't exist, path not found", () => {
+    test("status: 404 article not found", () => {
         return request(app)
         .get('/api/articles/999999999')
         .expect(404)
         .then(({body})=> {
-            expect(body.msg).toBe('path not found')
+            expect(body.msg).toBe('article not found')
         })
     })
     test("status: 400 invalid id", () => {
@@ -67,7 +67,7 @@ describe("GET /api/articles/:article_id", () => {
         })
     })
 })
-describe.only("PATCH - /api/articles/:article_id", () => {
+describe("PATCH - /api/articles/:article_id", () => {
     test("status: 200 responds with updated article", () => {
         return request(app)
         .patch('/api/articles/3')
@@ -101,6 +101,20 @@ describe.only("PATCH - /api/articles/:article_id", () => {
         .expect(400)
         .then(({body}) => {
             expect(body.msg).toBe('bad request')
+        })
+    })
+})
+describe.only("GET - /api/users", () => {
+    test("status: 200 responds with an array of user objects", () => {
+        return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({body}) => {
+            body.forEach(user => {
+                expect(user).toEqual(expect.objectContaining({
+                    username: expect.any(String)    
+                }))
+            })
         })
     })
 })
