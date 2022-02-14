@@ -104,17 +104,25 @@ describe("PATCH - /api/articles/:article_id", () => {
         })
     })
 })
-// describe.only("GET - /api/users", () => {
-//     test("status: 200 responds with an array of user objects", () => {
-//         return request(app)
-//         .get('/api/users')
-//         .expect(200)
-//         .then(({body}) => {
-//             body.forEach(user => {
-//                 expect(user).toEqual(expect.objectContaining({
-//                     username: expect.any(String)    
-//                 }))
-//             })
-//         })
-//     })
-// })
+describe.only("GET - /api/users", () => {
+    test("status: 200 responds with an array of user objects", () => {
+        return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({body}) => {
+            body.forEach(user => {
+                expect(user).toEqual(expect.objectContaining({
+                    username: expect.any(String)    
+                }))
+            })
+        })
+    })
+    test("status: 404 path not found", () => {
+        return request(app)
+        .get('/invalid_path')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).toBe('path not found')
+        })
+    })
+})
