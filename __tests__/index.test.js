@@ -33,7 +33,7 @@ describe('GET - /api/topics', () => {
         })
     })
 })
-describe.only("GET /api/articles/:article_id", () => {
+describe("GET /api/articles/:article_id", () => {
     test("status: 200 responds with the relevant article object", () => {
         return request(app)
         .get('/api/articles/3')
@@ -61,6 +61,43 @@ describe.only("GET /api/articles/:article_id", () => {
     test("status: 400 invalid id", () => {
         return request(app)
         .get('/api/articles/invalid_id')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('bad request')
+        })
+    })
+})
+describe.only("PATCH - /api/articles/:article_id", () => {
+    test("status: 200 responds with updated article", () => {
+        return request(app)
+        .patch('/api/articles/3')
+        .send({inc_votes: 1})
+        .expect(200)
+        .then(({body}) => {
+            expect(body).toEqual({
+                article_id: 3,
+                title: "Eight pug gifs that remind me of mitch",
+                topic: "mitch",
+                author: "icellusedkars",
+                body: "some gifs",
+                created_at: "2020-11-03T09:12:00.000Z",
+                votes: 1,
+            })
+        })
+    })
+    test("status: 400, malformed body/missing required fields - bad request", () => {
+        return request(app)
+        .patch('/api/articles/3')
+        .send({})
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('bad request')
+        })
+    })
+    test("status: 400 incorrect type - bad request", () => {
+        return request(app)
+        .patch('/api/articles/3')
+        .send({inc_votes: 'word'})
         .expect(400)
         .then(({body}) => {
             expect(body.msg).toBe('bad request')
