@@ -4,3 +4,13 @@ exports.psqlErrorHandling = (err, req, res, next) => {
     }
     next(err)
 }
+
+exports.customErrorHandling = (err, req, res, next) => {
+    res.status(err.status).send({msg: err.msg})
+
+    next(err)
+}
+
+exports.serverErrorHandling = (err, req, res, next) => {
+    res.status(500).send({msg: 'server error'})
+}
