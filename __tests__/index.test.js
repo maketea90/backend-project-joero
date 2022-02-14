@@ -104,17 +104,17 @@ describe("PATCH - /api/articles/:article_id", () => {
         })
     })
 })
-describe.only("GET - /api/users", () => {
-    test("status: 200 responds with an array of user objects", () => {
-        return request(app)
-        .get('/api/users')
-        .expect(200)
-        .then(({body}) => {
-            body.forEach(user => {
-                expect(user).toEqual(expect.objectContaining({
-                    username: expect.any(String)    
-                }))
-            })
-        })
-    })
-})
+// describe.only("GET - /api/users", () => {
+//     test("status: 200 responds with an array of user objects", () => {
+//         return request(app)
+//         .get('/api/users')
+//         .expect(200)
+//         .then(({body}) => {
+//             body.forEach(user => {
+//                 expect(user).toEqual(expect.objectContaining({
+//                     username: expect.any(String)    
+//                 }))
+//             })
+//         })
+//     })
+// })

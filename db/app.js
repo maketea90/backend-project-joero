@@ -15,4 +15,8 @@ app.use(psqlErrorHandling)
 app.use(customErrorHandling)
 app.use(serverErrorHandling)
 
+app.all('/*', (req, res) => {
+    res.status(404).send({msg: 'path not found'})
+})
+
 module.exports = app;
