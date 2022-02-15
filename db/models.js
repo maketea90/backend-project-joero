@@ -3,7 +3,6 @@ const db = require('./connection')
 exports.fetchTopics = () => {
     return db.query(`SELECT * FROM topics;`).then(({rows}) => {
         if(rows.length === 0){
-            console.log(rows)
             return Promise.reject({status: 404, msg:'path not found'})
         }
         return rows;
@@ -30,7 +29,6 @@ exports.updateArticle = (votes, id) => {
 
 exports.fetchUsers = () => {
     return db.query(`SELECT username FROM users;`).then(({rows}) => {
-        console.log(rows)
         return rows
     })
 }
