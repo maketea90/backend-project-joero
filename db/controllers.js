@@ -1,7 +1,6 @@
 const {fetchTopics, fetchArticleById, updateArticle, fetchUsers, fetchArticles} = require('./models')
 
 exports.getTopics = (req, res, next) => {
-    console.log('in getTopics')
     fetchTopics().then((result) => {
         res.status(200).send(result)
     })
@@ -26,7 +25,6 @@ exports.patchArticle = (req, res, next) => {
 }
 
 exports.getUsers = (req, res, next) => {
-    console.log('in getUsers')
     fetchUsers().then((result) => {
         res.status(200).send(result)
     })

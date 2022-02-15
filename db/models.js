@@ -1,9 +1,7 @@
 const db = require('./connection')
 
 exports.fetchTopics = () => {
-    console.log('in fetchtopics')
     return db.query(`SELECT * FROM topics;`).then(({rows}) => {
-        console.log(rows)
         if(rows.length === 0){
             console.log(rows)
             return Promise.reject({status: 404, msg:'path not found'})
@@ -31,7 +29,6 @@ exports.updateArticle = (votes, id) => {
 }
 
 exports.fetchUsers = () => {
-    console.log('in fetchUsers')
     return db.query(`SELECT username FROM users;`).then(({rows}) => {
         console.log(rows)
         return rows
