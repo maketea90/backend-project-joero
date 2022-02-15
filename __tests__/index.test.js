@@ -177,7 +177,7 @@ describe("GET - /api/articles", () => {
         })
     })
 })
-describe("GET - /api/articles/:article_id/comments", () => {
+describe.only("GET - /api/articles/:article_id/comments", () => {
     test("status: 200 responds with an array of comment objects for the given article_id", () => {
         return request(app)
         .get('/api/articles/3/comments')
@@ -193,6 +193,15 @@ describe("GET - /api/articles/:article_id/comments", () => {
                     body: expect.any(String),
                 }))
             })
+        })
+    })
+    test("status: 200 responds with empty array when given article_id has no comments associated with it", () => {
+        return request(app)
+        .get('/api/articles/4/comments')
+        .expect(200)
+        .then(({body}) => {
+            expect(body).toHaveLength(0)
+            expect(body).toEqual([])
         })
     })
     test("status: 404 article not found", () => {
