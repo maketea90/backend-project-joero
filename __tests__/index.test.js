@@ -136,7 +136,7 @@ describe("GET - /api/users", () => {
         })
     })
 })
-describe.only("GET - /api/articles", () => {
+describe("GET - /api/articles", () => {
     test("status: 200 responds with array of article objects sorted by date in descending order", () => {
         return request(app)
         .get('/api/articles')
