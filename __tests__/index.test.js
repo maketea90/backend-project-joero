@@ -177,3 +177,47 @@ describe("GET - /api/articles", () => {
         })
     })
 })
+describe("GET - /api/articles/:article_id/comments", () => {
+    test("status: 200 responds with an array of comment objects for the given article_id", () => {
+        return request(app)
+        .get('/api/articles/3/comments')
+        .expect(200)
+        .then(({body}) => {
+            expect(body).toHaveLength(2)
+            body.forEach(comment => {
+                expect(comment).toEqual(expect.objectContaining({
+                    comment_id: expect.any(Number),
+                    votes: expect.any(Number),
+                    created_at: expect.any(String),
+                    author: expect.any(String),
+                    body: expect.any(String),
+                }))
+            })
+        })
+    })
+    test("status: 200 responds with empty array when given article_id has no comments associated with it", () => {
+        return request(app)
+        .get('/api/articles/4/comments')
+        .expect(200)
+        .then(({body}) => {
+            expect(body).toHaveLength(0)
+            expect(body).toEqual([])
+        })
+    })
+    test("status: 404 article not found", () => {
+        return request(app)
+        .get('/api/articles/99999/comments')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).toBe('article not found')
+        })
+    })
+    test("status: 400 invalid article_id", () => {
+        return request(app)
+        .get('/api/articles/invalid_id/comments')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('bad request')
+        })
+    })
+})
