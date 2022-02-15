@@ -12,7 +12,7 @@ exports.fetchTopics = () => {
     })
 }
 
-exports.fetchArticle = (id) => {
+exports.fetchArticleById = (id) => {
     return db.query(`SELECT * FROM articles WHERE article_id = $1;`, [id]).then((result) =>{
         if(result.rows.length === 0){
             return Promise.reject({status: 404, msg: 'article not found'})
@@ -35,5 +35,11 @@ exports.fetchUsers = () => {
     return db.query(`SELECT username FROM users;`).then(({rows}) => {
         console.log(rows)
         return rows
+    })
+}
+
+exports.fetchArticles = () => {
+    return db.query(`SELECT * FROM articles ORDER BY created_at DESC;`).then(({rows}) => {
+            return rows;
     })
 }

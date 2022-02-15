@@ -3,7 +3,7 @@ const request = require('supertest')
 const db = require('../db/connection')
 const data = require('../db/data/test-data')
 const seed = require('../db/seeds/seed')
-const TestAgent = require('supertest/lib/agent')
+require('jest-sorted')
 
 afterAll(() => db.end())
 
@@ -136,4 +136,26 @@ describe("GET - /api/users", () => {
         })
     })
 })
-//describe("")
+describe.only("GET - /api/articles", () => {
+    test("status: 200 responds with array of article objects sorted by date in descending order", () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({body}) => {
+            body.forEach(article => {
+                expect(article).toEqual(expect.objectContaining({
+                    article_id: expect.any(Number),
+                    title: expect.any(String),
+                    topic: expect.any(String),
+                    author: expect.any(String),
+                    body: expect.any(String),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                }))
+            })
+            expect(body).toBeSortedBy('created_at',{
+                descending: true,
+              })
+        })
+    })
+})
