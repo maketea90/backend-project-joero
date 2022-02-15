@@ -177,7 +177,7 @@ describe("GET - /api/articles", () => {
         })
     })
 })
-describe.only("GET - /api/articles/:article_id/comments", () => {
+describe("GET - /api/articles/:article_id/comments", () => {
     test("status: 200 responds with an array of comment objects for the given article_id", () => {
         return request(app)
         .get('/api/articles/3/comments')
