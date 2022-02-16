@@ -155,7 +155,7 @@ describe("GET - /api/users", () => {
     })
 })
 describe("GET - /api/articles", () => {
-    test("status: 200 responds with array of article objects sorted by date in descending order", () => {
+    test("status: 200 responds with array of article objects sorted by date in descending order, and comment count", () => {
         return request(app)
         .get('/api/articles')
         .expect(200)
@@ -169,6 +169,7 @@ describe("GET - /api/articles", () => {
                     body: expect.any(String),
                     created_at: expect.any(String),
                     votes: expect.any(Number),
+                    comment_count: expect.any(String)
                 }))
             })
             expect(body).toBeSortedBy('created_at',{
