@@ -3,6 +3,7 @@ const request = require('supertest')
 const db = require('../db/connection')
 const data = require('../db/data/test-data')
 const seed = require('../db/seeds/seed')
+const { send } = require('express/lib/response')
 require('jest-sorted')
 
 afterAll(() => db.end())
@@ -216,6 +217,41 @@ describe("GET - /api/articles/:article_id/comments", () => {
     test("status: 400 invalid article_id", () => {
         return request(app)
         .get('/api/articles/invalid_id/comments')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('bad request')
+        })
+    })
+})
+describe("POST - /api/articles/:article_id/comments", () => {
+    test("status: 200 responds with the posted comment", () => {
+        return request(app)
+        .post('/api/articles/3/comments')
+        .send({username: "icellusedkars", body: 'wallawalladingdong'})
+        .expect(200)
+        .then(({body}) => {
+            expect(body[0]).toEqual(expect.objectContaining(
+                {body: expect.any(String), 
+                author: "icellusedkars",
+                article_id: 3, 
+                votes: 0, 
+                created_at: expect.any(String)}
+            ))
+        })
+    })
+    test("status: 400 malformed body sent", () => {
+        return request(app)
+        .post('/api/articles/3/comments')
+        .send({})
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('bad request')
+        })
+    })
+    test("status: 400 sent body violates rules of data", () => {
+        return request(app)
+        .post('/api/articles/4/comments')
+        .send({body: 45, username: 45})
         .expect(400)
         .then(({body}) => {
             expect(body.msg).toBe('bad request')
