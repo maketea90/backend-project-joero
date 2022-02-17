@@ -177,6 +177,52 @@ describe("GET - /api/articles", () => {
               })
         })
     })
+    test("status: 200 sorts by sort_by query", () => {
+        return request(app)
+        .get('/api/articles?sort_by=title&order=asc&topic=mitch')
+        .expect(200)
+        .then(({body}) => {
+            body.forEach(article => {
+                expect(article).toEqual(expect.objectContaining({
+                    article_id: expect.any(Number),
+                    title: expect.any(String),
+                    topic: 'mitch',
+                    author: expect.any(String),
+                    body: expect.any(String),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                    comment_count: expect.any(String)
+                }))
+            })
+            expect(body).toBeSortedBy('title',{
+                descending: false,
+              })
+        })
+    })
+    test("status: 400 invalid sort query", () => {
+        return request(app)
+        .get('/api/articles?sort_by=invalid_value')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Invalid sort query')
+        })
+    })
+    test("status: 400 invalid topic query", () => {
+        return request(app)
+        .get('/api/articles?sort_by=title&topic=invalid_topic')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('topic not found')
+        })
+    })
+    test("status: 400 invalid order query", () => {
+        return request(app)
+        .get('/api/articles?sort_by=title&order=invalid_query')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Invalid order query')
+        })
+    })
 })
 describe("GET - /api/articles/:article_id/comments", () => {
     test("status: 200 responds with an array of comment objects for the given article_id", () => {

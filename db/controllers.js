@@ -31,9 +31,11 @@ exports.getUsers = (req, res, next) => {
 }
 
 exports.getArticles = (req, res, next) => {
-    fetchArticles().then((result) => {
+    const {sort_by, order, topic} = req.query
+    fetchArticles(sort_by, order, topic).then((result) => {
         res.status(200).send(result)
     })
+    .catch(next)
 }
 
 exports.getCommentsByArticleId = (req, res, next) => {
