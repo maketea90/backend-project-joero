@@ -3,7 +3,6 @@ const request = require('supertest')
 const db = require('../db/connection')
 const data = require('../db/data/test-data')
 const seed = require('../db/seeds/seed')
-const { send } = require('express/lib/response')
 require('jest-sorted')
 
 afterAll(() => db.end())
