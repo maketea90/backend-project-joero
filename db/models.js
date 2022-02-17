@@ -38,11 +38,27 @@ exports.fetchUsers = () => {
     })
 }
 
-exports.fetchArticles = () => {
-    return db.query(`SELECT articles.*, COUNT(comments.article_id) AS comment_count FROM articles 
-    LEFT JOIN comments ON articles.article_id = comments.article_id 
-    GROUP BY articles.article_id
-    ORDER BY created_at DESC;`).then(({rows}) => {
+exports.fetchArticles = (sort_by='created_at', order='desc', topic) => {
+    if (!['title', 'topic', 'author', 'created_at', 'votes', 'article_id'].includes(sort_by)) {
+        return Promise.reject({ status: 400, msg: 'Invalid sort query' });
+    }
+    if(!['asc','desc'].includes(order)){
+        return Promise.reject({status: 400, msg: 'Invalid sort query'})
+    }
+    const queryValues = []
+    let queryStr = `SELECT articles.*, COUNT(comments.article_id) AS comment_count FROM articles 
+    LEFT JOIN comments ON articles.article_id = comments.article_id`
+    if(topic){
+        queryValues.push(topic)
+        queryStr += ` WHERE topic = $1`
+        
+    }
+    
+    order = order.toUpperCase()
+    queryStr += ` GROUP BY articles.article_id
+    ORDER BY ${sort_by} ${order};`
+    console.log(sort_by)
+    return db.query(queryStr, queryValues).then(({rows}) => {
             return rows;
     })
 }
