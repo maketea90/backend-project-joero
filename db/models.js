@@ -52,3 +52,11 @@ exports.fetchCommentsByArticleId = async (id) => {
     const result = await db.query(`SELECT * FROM comments WHERE article_id = $1;`, [id])
     return result.rows
 }
+
+exports.insertCommentById = (id, input) => {
+    const {body, username} = input
+    return db.query(`INSERT INTO comments (article_id, body, author)
+    VALUES ($1, $2, $3) RETURNING *;`, [id, body, username]).then(({rows}) => {
+        return rows
+    })
+}
