@@ -43,7 +43,7 @@ exports.fetchArticles = (sort_by='created_at', order='desc', topic) => {
         return Promise.reject({ status: 400, msg: 'Invalid sort query' });
     }
     if(!['asc','desc'].includes(order)){
-        return Promise.reject({status: 400, msg: 'Invalid sort query'})
+        return Promise.reject({status: 400, msg: 'Invalid order query'})
     }
     const queryValues = []
     let queryStr = `SELECT articles.*, COUNT(comments.article_id) AS comment_count FROM articles 
@@ -57,7 +57,6 @@ exports.fetchArticles = (sort_by='created_at', order='desc', topic) => {
     order = order.toUpperCase()
     queryStr += ` GROUP BY articles.article_id
     ORDER BY ${sort_by} ${order};`
-    console.log(sort_by)
     return db.query(queryStr, queryValues).then(({rows}) => {
         if(rows.length === 0 ){
             return Promise.reject({status: 400, msg: 'topic not found'})

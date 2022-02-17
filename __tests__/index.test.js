@@ -207,12 +207,20 @@ describe("GET - /api/articles", () => {
             expect(body.msg).toBe('Invalid sort query')
         })
     })
-    test("status: 400 invalid sort query", () => {
+    test("status: 400 invalid topic query", () => {
         return request(app)
         .get('/api/articles?sort_by=title&topic=invalid_topic')
         .expect(400)
         .then(({body}) => {
             expect(body.msg).toBe('topic not found')
+        })
+    })
+    test("status: 400 invalid order query", () => {
+        return request(app)
+        .get('/api/articles?sort_by=title&order=invalid_query')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Invalid order query')
         })
     })
 })
