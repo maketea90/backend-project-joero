@@ -199,6 +199,22 @@ describe("GET - /api/articles", () => {
               })
         })
     })
+    test("status: 400 invalid sort query", () => {
+        return request(app)
+        .get('/api/articles?sort_by=invalid_value')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Invalid sort query')
+        })
+    })
+    test("status: 400 invalid sort query", () => {
+        return request(app)
+        .get('/api/articles?sort_by=title&topic=invalid_topic')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('topic not found')
+        })
+    })
 })
 describe("GET - /api/articles/:article_id/comments", () => {
     test("status: 200 responds with an array of comment objects for the given article_id", () => {

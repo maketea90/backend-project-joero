@@ -59,6 +59,9 @@ exports.fetchArticles = (sort_by='created_at', order='desc', topic) => {
     ORDER BY ${sort_by} ${order};`
     console.log(sort_by)
     return db.query(queryStr, queryValues).then(({rows}) => {
+        if(rows.length === 0 ){
+            return Promise.reject({status: 400, msg: 'topic not found'})
+        }
             return rows;
     })
 }
