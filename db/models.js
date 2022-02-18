@@ -1,5 +1,5 @@
 const db = require('./connection')
-const {checkArticleIdExists} = require('./helpers/utils')
+const {checkArticleIdExists, checkCommentIdExists} = require('./helpers/utils')
 
 exports.fetchTopics = () => {
     return db.query(`SELECT * FROM topics;`).then(({rows}) => {
@@ -77,4 +77,10 @@ exports.insertCommentById = (id, input) => {
     VALUES ($1, $2, $3) RETURNING *;`, [id, body, username]).then(({rows}) => {
         return rows
     })
+}
+
+exports.removeCommentById = async (id) => {
+    await checkCommentIdExists(id)
+    const result = await db.query(`DELETE FROM comments WHERE comment_id = $1`, [id])
+    return result.rows
 }

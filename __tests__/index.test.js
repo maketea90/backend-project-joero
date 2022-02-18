@@ -303,3 +303,29 @@ describe("POST - /api/articles/:article_id/comments", () => {
         })
     })
 })
+describe("DELETE - /api/comments/:comment_id", () => {
+    test("status: 204 deletes given comment and responds with no content", () => {
+        return request(app)
+        .delete('/api/comments/1')
+        .expect(204)
+        .then(({body}) => {
+            expect(body).toEqual({})
+        })
+    })
+    test("status: 404 id not found", () => {
+        return request(app)
+        .delete('/api/comments/9999999')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).toBe('id not found')
+        })
+    })
+    test("status: 400 invalid id", () => {
+        return request(app)
+        .delete('/api/comments/invalid_id')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('bad request')
+        })
+    })
+})
