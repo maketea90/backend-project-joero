@@ -1,5 +1,5 @@
 const express = require('express');
-const {getTopics, getArticleById, patchArticle, getUsers, getArticles, getCommentsByArticleId, postCommentsById, deleteCommentById} = require('./controllers.js')
+const {getTopics, getArticleById, patchArticle, getUsers, getArticles, getCommentsByArticleId, postCommentsById, deleteCommentById, getEndpoints} = require('./controllers.js')
 const {psqlErrorHandling, customErrorHandling, serverErrorHandling} = require('./errors')
 
 const app = express();
@@ -14,6 +14,7 @@ app.get('/api/articles', getArticles)
 app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
 app.post('/api/articles/:article_id/comments', postCommentsById)
 app.delete('/api/comments/:comment_id', deleteCommentById)
+app.get('/api', getEndpoints)
 
 app.use(psqlErrorHandling)
 app.use(customErrorHandling)

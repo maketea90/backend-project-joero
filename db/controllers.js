@@ -1,5 +1,5 @@
 const {fetchTopics, fetchArticleById, updateArticle, fetchUsers, fetchArticles, fetchCommentsByArticleId, insertCommentById, removeCommentById} = require('./models')
-
+const endpointsData = require('../endpoints.json')
 exports.getTopics = (req, res, next) => {
     fetchTopics().then((result) => {
         res.status(200).send(result)
@@ -65,4 +65,8 @@ exports.deleteCommentById = (req, res, next) => {
         res.status(204).send(result)
     })
     .catch(next)
+}
+
+exports.getEndpoints = (req, res, next) => {
+    res.status(200).send(endpointsData)
 }
