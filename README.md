@@ -2,7 +2,7 @@
 
 This project is a fully tested backend api, with several endpoints. The link below will take you to a webpage with a description of all the different endpoints available.
 
-Here is a link to the hosted version of the backend api which I have built: https://cool-backend-project.herokuapp.com/api/
+Here is a link to the hosted version of the backend api which I have built: https://backend-project-joero.herokuapp.com/api
 
 In order to clone this repo down to your local machine please run the following command in the folder you wish to clone it down into:
 
