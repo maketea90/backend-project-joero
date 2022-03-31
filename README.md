@@ -24,4 +24,4 @@ Testing can be run via the command:
 
 npm test
 
-The minimum node js version required is 
+The minimum node js version required is 16.8.0, and the minimum postgres version required is 13.4
