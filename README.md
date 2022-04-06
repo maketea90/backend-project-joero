@@ -6,7 +6,7 @@ Here is a link to the hosted version of the backend api which I have built: http
 
 In order to clone this repo down to your local machine please run the following command in the folder you wish to clone it down into:
 
-git clone https://github.com/maketea90/legendary-backend.git
+git clone https://github.com/maketea90/backend-project-joero.git
 
 Anyone cloning this repo will need to add .env.test and .env.development files in the root directory containing PGDATABASE=database_name_here replacing database_name_here with the test database name in the .env.test file and development database name in the .env.development file respectively.
 
